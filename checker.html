@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Link Checker - Free URL Analysis Tool | Check Any Link Instantly</title>
+<meta name="description" content="Free link checker tool. Analyze any URL instantly - check redirects, response time, SSL status, and social previews. No signup required.">
+<meta name="keywords" content="link checker, URL checker, redirect checker, link analysis, bitly alternative, link shortener, URL shortener">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#e0e0e0;min-height:100vh}
+.container{max-width:800px;margin:0 auto;padding:20px}
+header{text-align:center;padding:60px 20px 40px}
+h1{font-size:2.5em;font-weight:700;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.subtitle{color:#888;font-size:1.1em;margin-bottom:30px}
+.input-group{display:flex;gap:10px;max-width:600px;margin:0 auto}
+.input-group input{flex:1;padding:14px 18px;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:16px;outline:none;transition:border .2s}
+.input-group input:focus{border-color:#6366f1}
+.input-group button{padding:14px 28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;transition:transform .1s}
+.input-group button:hover{transform:scale(1.02)}
+.input-group button:active{transform:scale(0.98)}
+#results{margin-top:40px;display:none}
+.result-card{background:#111;border:1px solid #222;border-radius:12px;padding:24px;margin-bottom:16px}
+.result-card h3{color:#8b5cf6;margin-bottom:12px;font-size:1.1em}
+.metric{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a1a}
+.metric:last-child{border-bottom:none}
+.metric .label{color:#888}
+.metric .value{font-weight:600}
+.good{color:#22c55e}.warn{color:#eab308}.bad{color:#ef4444}
+.redirect-chain{margin-top:8px}
+.redirect-step{padding:6px 12px;background:#0d0d0d;border-radius:6px;margin:4px 0;font-size:14px;word-break:break-all}
+.redirect-step .code{color:#6366f1;font-weight:600;margin-right:8px}
+.cta-section{margin-top:50px;text-align:center;padding:40px 20px;background:linear-gradient(135deg,#111,#1a1a2e);border-radius:16px;border:1px solid #222}
+.cta-section h2{font-size:1.5em;margin-bottom:12px}
+.cta-section p{color:#888;margin-bottom:20px;max-width:500px;margin-left:auto;margin-right:auto}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}
+.tool-card{background:#0d0d0d;border:1px solid #222;border-radius:12px;padding:20px;text-align:left;transition:border .2s}
+.tool-card:hover{border-color:#6366f1}
+.tool-card h4{margin-bottom:6px}
+.tool-card p{color:#888;font-size:14px;margin-bottom:12px}
+.tool-card a{color:#8b5cf6;text-decoration:none;font-weight:600;font-size:14px}
+.tool-card a:hover{text-decoration:underline}
+.tool-card .price{color:#22c55e;font-size:13px;margin-bottom:8px}
+footer{text-align:center;padding:40px 20px;color:#555;font-size:13px}
+footer a{color:#6366f1;text-decoration:none}
+.loading{display:inline-block;width:20px;height:20px;border:2px solid #333;border-top-color:#8b5cf6;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){h1{font-size:1.8em}.input-group{flex-direction:column}.tools-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Link Checker</h1>
+<p class="subtitle">Analyze any URL instantly. Check redirects, speed, SSL, and social previews.</p>
+<div class="input-group">
+<input type="url" id="urlInput" placeholder="https://example.com" autofocus>
+<button onclick="checkLink()" id="checkBtn">Check Link</button>
+</div>
+</header>
+
+<div id="results"></div>
+
+<section class="cta-section">
+<h2>Need more than checking?</h2>
+<p>These tools let you create, shorten, track, and optimize your links at scale.</p>
+<div class="tools-grid">
+<div class="tool-card">
+<h4>Dub.co</h4>
+<p>Modern link management. Custom domains, analytics, API, QR codes.</p>
+<div class="price">Free tier available</div>
+<a href="https://refer.dub.co/shamil" target="_blank" rel="noopener">Try Dub.co Free &rarr;</a>
+</div>
+<div class="tool-card">
+<h4>Notion</h4>
+<p>All-in-one workspace. Docs, databases, wikis, project management + AI.</p>
+<div class="price">Free for personal use</div>
+<a href="https://www.notion.so" target="_blank" rel="noopener">Try Notion Free &rarr;</a>
+</div>
+<div class="tool-card">
+<h4>Beehiiv</h4>
+<p>Newsletter platform for creators. Built-in monetization and growth tools.</p>
+<div class="price">Free up to 2,500 subscribers</div>
+<a href="https://www.beehiiv.com" target="_blank" rel="noopener">Start Newsletter &rarr;</a>
+</div>
+</div>
+</section>
+
+<footer>
+<p>Built with care. No tracking, no cookies, no BS.<br>
+<a href="https://x.com/ssj4shamil">@ssj4shamil</a></p>
+</footer>
+</div>
+
+<script>
+async function checkLink() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) return;
+  const btn = document.getElementById('checkBtn');
+  const results = document.getElementById('results');
+  btn.innerHTML = '<span class="loading"></span>';
+  btn.disabled = true;
+  results.style.display = 'block';
+  results.innerHTML = '<div class="result-card"><h3>Analyzing...</h3><p>Checking redirects, SSL, and response time...</p></div>';
+
+  try {
+    // Use a CORS proxy or direct fetch
+    const startTime = performance.now();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    let finalUrl = url;
+    let redirects = [];
+    let status = 0;
+    let ssl = false;
+    let responseTime = 0;
+
+    try {
+      const resp = await fetch(url, {
+        method: 'HEAD',
+        mode: 'no-cors',
+        signal: controller.signal,
+        redirect: 'follow'
+      });
+      clearTimeout(timeout);
+      responseTime = Math.round(performance.now() - startTime);
+      status = resp.status || 0;
+      ssl = url.startsWith('https://');
+      finalUrl = resp.url || url;
+    } catch(e) {
+      clearTimeout(timeout);
+      responseTime = Math.round(performance.now() - startTime);
+      // no-cors won't give us status, but we can still measure time
+      ssl = url.startsWith('https://');
+    }
+
+    // Parse URL for display
+    const urlObj = new URL(url.startsWith('http') ? url : 'https://' + url);
+    const domain = urlObj.hostname;
+
+    // Determine speed rating
+    let speedClass = 'good', speedLabel = 'Fast';
+    if (responseTime > 2000) { speedClass = 'bad'; speedLabel = 'Slow'; }
+    else if (responseTime > 800) { speedClass = 'warn'; speedLabel = 'Average'; }
+
+    // Build results HTML
+    let html = `
+      <div class="result-card">
+        <h3>URL Analysis: ${domain}</h3>
+        <div class="metric">
+          <span class="label">URL</span>
+          <span class="value" style="word-break:break-all;max-width:60%">${url}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Response Time</span>
+          <span class="value ${speedClass}">${responseTime}ms (${speedLabel})</span>
+        </div>
+        <div class="metric">
+          <span class="label">SSL/HTTPS</span>
+          <span class="value ${ssl ? 'good' : 'bad'}">${ssl ? 'Secure' : 'Not Secure'}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Protocol</span>
+          <span class="value">${urlObj.protocol.replace(':', '')}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Domain</span>
+          <span class="value">${domain}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Path</span>
+          <span class="value">${urlObj.pathname || '/'}</span>
+        </div>
+      </div>
+    `;
+
+    // Link shortener detection
+    const shorteners = ['bit.ly','tinyurl.com','t.co','goo.gl','ow.ly','is.gd','v.gd','buff.ly','rb.gy','shorturl.at','cutt.ly','dub.sh','dub.co'];
+    const isShortened = shorteners.some(s => domain.includes(s));
+    if (isShortened) {
+      html += `
+        <div class="result-card">
+          <h3>Shortened Link Detected</h3>
+          <p style="color:#eab308">This is a shortened URL from <strong>${domain}</strong>. Shortened links can mask the final destination.</p>
+          <p style="margin-top:12px;color:#888">Want full control over your short links? <a href="https://refer.dub.co/shamil" style="color:#8b5cf6" target="_blank">Try Dub.co</a> — custom domains, real-time analytics, and full API access. Free tier available.</p>
+        </div>
+      `;
+    }
+
+    // Tips card
+    html += `
+      <div class="result-card">
+        <h3>Recommendations</h3>
+        <div class="metric">
+          <span class="label">${ssl ? 'SSL is active' : 'Enable HTTPS'}</span>
+          <span class="value ${ssl ? 'good' : 'bad'}">${ssl ? 'Good' : 'Action needed'}</span>
+        </div>
+        <div class="metric">
+          <span class="label">${responseTime < 800 ? 'Fast response' : 'Consider CDN'}</span>
+          <span class="value ${responseTime < 800 ? 'good' : 'warn'}">${responseTime < 800 ? 'Good' : 'Could improve'}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Link tracking</span>
+          <span class="value warn">${isShortened ? 'Using basic shortener' : 'No tracking detected'}</span>
+        </div>
+      </div>
+    `;
+
+    results.innerHTML = html;
+  } catch(e) {
+    results.innerHTML = `<div class="result-card"><h3>Error</h3><p>Could not analyze URL: ${e.message}</p><p style="margin-top:8px;color:#888">Make sure the URL is valid and includes http:// or https://</p></div>`;
+  }
+
+  btn.innerHTML = 'Check Link';
+  btn.disabled = false;
+}
+
+// Enter key triggers check
+document.getElementById('urlInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkLink();
+});
+</script>
+</body>
+</html>

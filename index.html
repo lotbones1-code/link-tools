@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why I Switched from Bitly to Dub.co (And You Should Too)</title>
+    <meta name="description" content="Compare Dub.co vs Bitly: free custom domains, better analytics, full API access. See why developers and marketers are switching.">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                         Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #fafbfc;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: #ffffff;
+            padding: 80px 20px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 560px;
+            margin: 0 auto 32px;
+            opacity: 0.92;
+        }
+
+        .hero .cta-btn {
+            display: inline-block;
+            background: #22c55e;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 16px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+        }
+
+        .hero .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        /* --- Sections --- */
+        .section {
+            padding: 64px 20px;
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+
+        .section p {
+            font-size: 1.05rem;
+            color: #4a4a6a;
+            margin-bottom: 24px;
+        }
+
+        /* --- Problem Section --- */
+        .problem {
+            background: #fff;
+        }
+
+        .problem-inner {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 64px 20px;
+        }
+
+        .pain-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .pain-card {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .pain-card h3 {
+            color: #dc2626;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .pain-card p {
+            color: #7f1d1d;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* --- Solution Section --- */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #2563eb;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #4a4a6a;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* --- Comparison Table --- */
+        .comparison {
+            background: #fff;
+        }
+
+        .comparison-inner {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 64px 20px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        thead th {
+            background: #f1f5f9;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        thead th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        tbody td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .check {
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .cross {
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .partial {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        /* --- CTA Section --- */
+        .cta-section {
+            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 64px 20px;
+        }
+
+        .cta-section h2 {
+            color: #ffffff;
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            max-width: 520px;
+            margin: 0 auto 32px;
+        }
+
+        .cta-section .cta-btn {
+            display: inline-block;
+            background: #22c55e;
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 18px 48px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+        }
+
+        .cta-section .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .cta-section .subtext {
+            font-size: 0.9rem;
+            opacity: 0.75;
+            margin-top: 14px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #64748b;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .pain-points,
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .section h2,
+            .problem-inner h2,
+            .comparison-inner h2 {
+                font-size: 1.4rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            thead th,
+            tbody td {
+                padding: 10px 12px;
+            }
+
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Why I Switched from Bitly to Dub.co (And You Should Too)</h1>
+        <p>
+            Custom domains, better analytics, and full API access &mdash;
+            all on a free plan. Here is why thousands of developers and marketers
+            are making the switch.
+        </p>
+        <a href="https://refer.dub.co/shamil" class="cta-btn">Try Dub.co Free</a>
+    </section>
+
+    <!-- Problem -->
+    <section class="problem">
+        <div class="problem-inner">
+            <h2>The Problem with Bitly</h2>
+            <p>
+                Bitly was the default link shortener for a decade. But their pricing
+                has become increasingly hostile toward small teams, creators, and developers.
+            </p>
+            <div class="pain-points">
+                <div class="pain-card">
+                    <h3>$35/month for Custom Domains</h3>
+                    <p>
+                        Want to use your own brand domain? Bitly locks this behind their
+                        paid plan. That is $420/year for a basic feature.
+                    </p>
+                </div>
+                <div class="pain-card">
+                    <h3>Analytics Behind a Paywall</h3>
+                    <p>
+                        Free Bitly only shows 30 days of click data. Want to see
+                        geographic or device breakdowns? Pay up.
+                    </p>
+                </div>
+                <div class="pain-card">
+                    <h3>Limited API on Free Tier</h3>
+                    <p>
+                        Developers get rate-limited to 1,000 links/month on free.
+                        Any serious integration requires a paid plan.
+                    </p>
+                </div>
+                <div class="pain-card">
+                    <h3>No QR Code Customization</h3>
+                    <p>
+                        Branded QR codes are a premium-only feature. Free users get
+                        generic black-and-white codes with no branding.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section class="section">
+        <h2>Enter Dub.co: Built for Modern Teams</h2>
+        <p>
+            Dub.co is an open-source link management platform that gives you
+            everything Bitly charges for &mdash; and more &mdash; starting free.
+        </p>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Free Custom Domains</h3>
+                <p>
+                    Connect your own domain at no cost. Your links, your brand.
+                    No $35/month gatekeeping.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3>Full Analytics, Always</h3>
+                <p>
+                    Click maps, device breakdown, referrer tracking, and geographic
+                    data &mdash; all on the free plan. No 30-day cutoff.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3>Developer-First API</h3>
+                <p>
+                    Full REST API with generous rate limits. SDKs for TypeScript,
+                    Python, Go, and Ruby. Build integrations without friction.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3>Branded QR Codes</h3>
+                <p>
+                    Generate customized QR codes with your logo and brand colors.
+                    Included free &mdash; not locked behind a paywall.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3>Open Source</h3>
+                <p>
+                    Dub.co is fully open source. Inspect the code, self-host it,
+                    or contribute. Transparency you will never get from Bitly.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3>Team Collaboration</h3>
+                <p>
+                    Invite team members, share link workspaces, manage permissions.
+                    Built for teams from day one.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison">
+        <div class="comparison-inner">
+            <h2>Dub.co vs Bitly: Feature Comparison</h2>
+            <p>A side-by-side look at what you get on each platform's free tier.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Dub.co (Free)</th>
+                            <th>Bitly (Free)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Custom domains</td>
+                            <td><span class="check">Included</span></td>
+                            <td><span class="cross">$35/mo</span></td>
+                        </tr>
+                        <tr>
+                            <td>Link analytics</td>
+                            <td><span class="check">Full</span></td>
+                            <td><span class="partial">30 days only</span></td>
+                        </tr>
+                        <tr>
+                            <td>API access</td>
+                            <td><span class="check">Full API + SDKs</span></td>
+                            <td><span class="partial">Limited (1K/mo)</span></td>
+                        </tr>
+                        <tr>
+                            <td>QR codes</td>
+                            <td><span class="check">Branded, free</span></td>
+                            <td><span class="cross">Paid only</span></td>
+                        </tr>
+                        <tr>
+                            <td>Geographic data</td>
+                            <td><span class="check">Included</span></td>
+                            <td><span class="cross">Paid only</span></td>
+                        </tr>
+                        <tr>
+                            <td>Device breakdown</td>
+                            <td><span class="check">Included</span></td>
+                            <td><span class="cross">Paid only</span></td>
+                        </tr>
+                        <tr>
+                            <td>Referrer tracking</td>
+                            <td><span class="check">Included</span></td>
+                            <td><span class="cross">Paid only</span></td>
+                        </tr>
+                        <tr>
+                            <td>Team workspaces</td>
+                            <td><span class="check">Included</span></td>
+                            <td><span class="cross">Paid only</span></td>
+                        </tr>
+                        <tr>
+                            <td>Open source</td>
+                            <td><span class="check">Yes</span></td>
+                            <td><span class="cross">No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Credit card required</td>
+                            <td><span class="check">No</span></td>
+                            <td><span class="check">No</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Ready to Upgrade Your Links?</h2>
+        <p>
+            Join thousands of developers, marketers, and creators who switched
+            to Dub.co. Free to start, no credit card required.
+        </p>
+        <a href="https://refer.dub.co/shamil" class="cta-btn">Get Started with Dub.co</a>
+        <p class="subtext">Free plan available. No credit card needed.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Built by a developer, for developers.</p>
+    </footer>
+
+</body>
+</html>
